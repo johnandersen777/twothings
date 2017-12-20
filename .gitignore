@@ -1,0 +1,14 @@
+*.log
+*.pyc
+.cache/
+.coverage
+.idea/
+.vscode/
+twothings.egg-info/
+build/
+dist/
+docs/build/
+venv/
+wheelhouse/
+*.eggs
+*.swp

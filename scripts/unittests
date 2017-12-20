@@ -1,0 +1,4 @@
+#!/bin/sh
+
+source "venv/bin/activate"
+exec nodemon -e .py --exec 'clear; python setup.py test; test 1'
