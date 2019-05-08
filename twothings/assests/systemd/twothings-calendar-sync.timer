@@ -1,0 +1,12 @@
+[Unit]
+Description=Run twothings-calendar-sync every 30-60 minutes
+Requires=twothings-calendar-sync.service
+
+[Timer]
+Unit=twothings-calendar-sync.service
+OnUnitInactiveSec=30m
+RandomizedDelaySec=30m
+AccuracySec=1s
+
+[Install]
+WantedBy=timers.target

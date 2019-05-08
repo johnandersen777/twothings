@@ -55,7 +55,7 @@ setup(
     install_requires=INSTALL_REQUIRES,
     entry_points={
         'console_scripts': [
-            NAME + '-calendar-sync = ' + IMPORT_NAME + '.calendar.sync:CalendarSync.cli',
+            # NAME + ' = ' + IMPORT_NAME + '.calendar.sync:CalendarSync.cli',
         ],
     },
 )
