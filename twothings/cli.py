@@ -17,6 +17,64 @@ class RandStr(CMD):
     async def run(self):
         print(hashlib.sha384(os.urandom(int(self.bits / 8))).hexdigest())
 
+
+import asyncio
+import curses
+from curses.textpad import Textbox, rectangle
+
+class Curses:
+
+    def main(self, stdscr):
+        raise NotImplementedError()
+
+    def wrapped(self, func):
+        def call_wrapper():
+            curses.wrapper(func)
+        return call_wrapper
+
+    async def wrapper(self, func):
+        await asyncio.get_event_loop().run_in_executor(None,
+                self.wrapped(func))
+
+    async def run(self):
+        await self.wrapper(self.main)
+
+class CursesEWS(Curses):
+
+    def main(self, stdscr):
+        self.window = stdscr
+        # Clear screen
+        stdscr.clear()
+
+        # stdscr.border()
+
+        # This raises ZeroDivisionError when i == 10.
+        for i in range(0, 10):
+            v = i-10
+            stdscr.addstr(i, 0, '10 divided by {} is {}'.format(v, stdscr))
+
+        stdscr.refresh()
+        stdscr.getkey()
+
+    async def run(self):
+        cli = asyncio.create_task(self.wrapper(self.main))
+        await cli
+
+class EWSClientEmail(CMD):
+    """
+    Email client for EWS
+    """
+
+    async def run(self):
+        await CursesEWS().run()
+
+class Email(CMD):
+    """
+    Email related utilities
+    """
+
+    ewsclient = EWSClientEmail
+
 class CLI(CMD):
     '''
      __   __                                _                      _
@@ -55,3 +113,4 @@ class CLI(CMD):
     CLI_FORMATTER_CLASS = argparse.RawDescriptionHelpFormatter
 
     randstr = RandStr
+    email = Email
