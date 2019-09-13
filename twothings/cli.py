@@ -5,6 +5,8 @@ import argparse
 from dffml.util.cli.arg import Arg
 from dffml.util.cli.cmd import CMD
 
+from twothings.calendar.sync import CalendarSync
+
 RAND_STR_DEFAULT_BITS_ENTROPY = 4096
 
 class RandStr(CMD):
@@ -16,6 +18,11 @@ class RandStr(CMD):
 
     async def run(self):
         print(hashlib.sha384(os.urandom(int(self.bits / 8))).hexdigest())
+
+class CalSync(CMD):
+
+    async def run(self):
+        CalendarSync().calendar_sync_ews_to_google()
 
 class CLI(CMD):
     '''
@@ -55,3 +62,4 @@ class CLI(CMD):
     CLI_FORMATTER_CLASS = argparse.RawDescriptionHelpFormatter
 
     randstr = RandStr
+    calsync = CalSync

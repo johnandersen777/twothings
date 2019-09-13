@@ -43,6 +43,8 @@ if os.path.isdir(CERT_PATH) and list(glob.glob(os.path.join(CERT_PATH, '*'))):
                 os.path.basename(filename): filename \
                 for filename in glob.glob(os.path.join(CERT_PATH, '*'))
             }[urlparse(url).hostname]
+            LOGGER.info('Loaded certs: %r',
+                    list(glob.glob(os.path.join(CERT_PATH, '*'))))
             super(RootCAAdapter, self).cert_verify(conn=conn, url=url, verify=cert_file, cert=cert)
     # Tell exchangelib to use this adapter class instead of the default
     BaseProtocol.HTTP_ADAPTER_CLS = RootCAAdapter
