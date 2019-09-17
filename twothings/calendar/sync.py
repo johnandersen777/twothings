@@ -53,6 +53,7 @@ else:
 
 class CalendarItem(NamedTuple):
     uid: str
+    subject: str
     start: datetime
     end: datetime
     location: str
@@ -122,6 +123,7 @@ class CalendarSync(object):
             hash_contents = i.uid + str(i.start) + str(i.end)
             uid = hashlib.sha384(hash_contents.encode('utf-8')).hexdigest()
             yield CalendarItem(uid=uid,
+                               subject=i.subject,
                                start=i.start,
                                end=i.end,
                                location=i.location,
@@ -130,7 +132,7 @@ class CalendarSync(object):
 
     def calendar_sync_ews_to_google(self):
         ews = {i.uid: i for i in self.get_ews_calendar_items() \
-               if i.accepted}
+               if not i.subject.lower().startswith("canceled:")}
 
         # If modifying these scopes, delete the file token.pickle.
         SCOPES = ['https://www.googleapis.com/auth/calendar']
