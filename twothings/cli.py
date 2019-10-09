@@ -24,6 +24,22 @@ class CalSync(CMD):
     async def run(self):
         CalendarSync().calendar_sync_ews_to_google()
 
+class HexBits(CMD):
+
+    arg_hex = Arg("hex")
+
+    async def run(self):
+        # 360ef0
+        length = len(self.hex) * 4
+        bits = []
+        print("|", end="")
+        for bit in range(0, length - 1):
+            print(" %02d |" % (bit,), end="")
+        print(" %02d |" % (length - 1,))
+        for byte in map(lambda c: int("0x0" + c, 16), self.hex[::-1]):
+            bits += list(map(lambda bit: 1 if byte & (1 << bit) else 0, range(0, 4)))
+        print("|  " + " |  ".join(map(str, bits)), end=" |\n")
+
 class CLI(CMD):
     '''
      __   __                                _                      _
@@ -63,3 +79,4 @@ class CLI(CMD):
 
     randstr = RandStr
     calsync = CalSync
+    hexbits = HexBits
