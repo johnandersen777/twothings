@@ -22,8 +22,8 @@ from typing import NamedTuple
 import keyring
 
 import requests.adapters
-from exchangelib import ServiceAccount, Account, CalendarItem, EWSDateTime, \
-                        Configuration
+from exchangelib import Credentials, Account, CalendarItem, EWSDateTime, \
+                        Configuration, FaultTolerance
 from exchangelib.fields import MONDAY, WEDNESDAY
 from exchangelib.recurrence import Recurrence, WeeklyPattern
 from exchangelib.protocol import BaseProtocol
@@ -112,8 +112,9 @@ class CalendarSync(object):
         email = keyring_must_get_password('ews', 'email')
         password = keyring_must_get_password('ews', 'password')
 
-        credentials = ServiceAccount(domain + '\\' + ewsid, password)
-        config = Configuration(server=server, credentials=credentials)
+        credentials = Credentials(domain + '\\' + ewsid, password)
+        config = Configuration(server=server, credentials=credentials,
+                retry_policy=FaultTolerance())
         account = Account(email, credentials=credentials, config=config)
 
         start = account.default_timezone.localize(EWSDateTime.now())

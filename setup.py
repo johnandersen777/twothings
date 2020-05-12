@@ -8,7 +8,9 @@ AUTHOR_EMAIL = "johnandersenpdx@gmail.com"
 ORG = "pdxjohnny"
 NAME = "twothings"
 DESCRIPTION = "You want me to do two things?"
-INSTALL_REQUIRES = ["dffml>=0.2.1", "keyring>=19.0.1", "exchangelib[kerberos]>=1.12.3"]
+INSTALL_REQUIRES = ["dffml>=0.3.0", "keyring>=19.0.1",
+        "exchangelib[kerberos]==3.1.1", "google-auth-oauthlib==0.4.1",
+        "google-api-python-client==1.7.11"]
 
 IMPORT_NAME = NAME.replace("-", "_")
 SELF_PATH = os.path.dirname(os.path.realpath(__file__))
